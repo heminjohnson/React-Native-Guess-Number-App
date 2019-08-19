@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 
 import Card from '../components/Card'
 import Colors from '../constants/colors'
+import Input from '../components/Input'
 
 const StartGameScreen = props => {
     return (
@@ -10,7 +11,7 @@ const StartGameScreen = props => {
             <Text style={styles.title}>Start a new game</Text>
             <Card style={styles.inputContainer}>
                 <Text>Select a number</Text>
-                <TextInput />
+                <Input style={styles.input} blurOnSubmit autoCapitalize={'none'} autoCorrect={false} keyboardType={'number-pad'} maxLength={2}/>
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
                         <Button onPress={() => {}} title={'Reset'} color={Colors.accent}></Button>
@@ -47,6 +48,10 @@ const styles = StyleSheet.create({
     },
     button: {
       width: 100
+    },
+    input: {
+      width: 50,
+      textAlign: 'center'
     }
 })
 
