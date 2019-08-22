@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   StyleSheet,
@@ -24,6 +24,7 @@ const StartGameScreen = props => {
   const [enteredValue, setEnteredValue] = useState('')
   const [confirmed, setConfirmed] = useState(false)
   const [selectedNumber, setSelectedNumber] = useState('')
+  const [buttonWidth, setButtonWidth] = useState(Dimensions.get('window').width / 4)
 
   const numberInputHandler = (inputText) => {
     setEnteredValue(inputText.replace(/[^0-9]/g, ''))
@@ -34,6 +35,17 @@ const StartGameScreen = props => {
     setConfirmed(true)
   }
 
+  useEffect(() => {
+    const updateLayout = () => {
+      setButtonWidth(Dimensions.get('window').width / 4)
+    }
+
+    Dimensions.addEventListener('change', updateLayout)
+    return () => {
+      Dimensions.removeEventListener('change', updateLayout)
+    }
+  })
+
   const confirmInputHandler = () => {
     const chosenNumber = parseInt(enteredValue)
 
@@ -43,7 +55,6 @@ const StartGameScreen = props => {
         'Number has to be a number between 1 and 99.',
         [{text: 'Okay', style: 'destructive', onPress: resetInputHandler}]
       )
-      return
     }
 
     setConfirmed(true)
@@ -87,10 +98,10 @@ const StartGameScreen = props => {
                 value={enteredValue}
               />
               <View style={styles.buttonContainer}>
-                <View style={styles.button}>
+                <View style={{width: buttonWidth}}>
                   <Button onPress={resetInputHandler} title={'Reset'} color={Colors.accent}></Button>
                 </View>
-                <View style={styles.button}>
+                <View style={{width: buttonWidth}}>
                   <Button onPress={confirmInputHandler} title={'Confirm'} color={Colors.primary}></Button>
                 </View>
               </View>
@@ -126,9 +137,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15
   },
-  button: {
-    width: Dimensions.get('window').width / 4
-  },
+  // button: {
+  //   width: Dimensions.get('window').width / 4
+  // },
   input: {
     width: 50,
     textAlign: 'center'
